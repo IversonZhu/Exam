@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.dao.UserDao">
+    <resultMap id="baseResultMap" type="com.exam.entity.User">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="user">
+        #{id},#{username},#{age}
+    </sql>
+    <select id="selectByUsername" parameterType="String" resultMap="baseResultMap">
+        select * from t_user where 1=1
+        <if test="_parameter!=null">
+            and username=#{username}
+        </if>
+    </select>
+    <insert id="insertUser" parameterType="java.util.HashMap">
+        insert into t_user value (<include refid="user"></include>)
+    </insert>
+    <select id="selectCount" resultType="Integer">
+        select count(id) from t_user
+    </select>
+</mapper>
